@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Shoes Store</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+      <ul class="nav-left">
+        <li><a href="home.html" class="nav-link">Home</a></li>
+      
+        <!-- Dropdown 1 -->
+        <li class="dropdown">
+          <a href="brands.html" class="nav-link">Brands ▾</a>
+          <ul class="dropdown-menu">
+            <li><a href="addidas.html">Addidas</a></li>
+            <li><a href="nike.html">Nike</a></li>
+            <li><a href="puma.html">Puma</a></li>
+            <li><a href="allbrands.html">Show all brands</a></li>
+          </ul>
+        </li>
+
+        <!-- Dropdown 2 -->
+        <li class="dropdown">
+          <a href="type.html" class="nav-link">Shoes type ▾</a>
+          <ul class="dropdown-menu">
+            <li><a href="boots.html">Boots</a></li>
+            <li><a href="formal.html">Formal</a></li>
+            <li><a href="sneakers.html">Sneakers</a></li>
+            <li><a href="alltypes.html">Show all types</a></li>
+          </ul>
+        </li>
+
+        <li><a href="contact.html" class="nav-link">Contact</a></li>
+      </ul>
+    </nav>
+
+    <!-- Login Form Container -->
+    <main class="auth-container">
+      <div class="auth-card">
+        <h2>Welcome Back</h2>
+        <p class="auth-subtitle">Please enter your details to log in.</p>
+
+        <!-- Login Form -->
+        <form id="loginForm" class="auth-form">
+        <!-- Email Address -->
+        <div class="form-group">
+          <label for="login-email">Email Address</label>
+          <input type="email" id="login-email" name="email" placeholder="name@example.com" required>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" name="password" placeholder="••••••••" required>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="submit-btn">Log In</button>
+        </form>
+
+        <script>
+          document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevents normal page reload
+
+            const emailInput = document.getElementById('login-email').value.trim().toLowerCase();
+            const passwordInput = document.getElementById('login-password').value;
+
+            // Retrieve saved users from localStorage
+            const users = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+
+            // Search for matching email
+            const existingUser = users.find(user => user.email === emailInput);
+
+            // 1. Account does not exist
+            if (!existingUser) {
+              alert("No account found with this email. Please register first!");
+              window.location.href = 'register.html';
+              return;
+            }
+
+            // 2. Incorrect Password
+            if (existingUser.password !== passwordInput) {
+              alert("Incorrect password. Please try again.");
+              return;
+            }
+
+            // 3. Successful Login -> Redirect back to previous page
+            alert("Login successful!");
+
+            // Check if there is a previous page visited on your site
+            if (document.referrer && !document.referrer.includes('login.html')) {
+              window.location.href = document.referrer; // Go back to previous page
+            } else {
+              window.location.href = 'home.html'; // Fallback to home page if opened directly
+            }
+          });
+        </script>
+      
+        <!-- Switch to Register Link -->
+        <p class="switch-auth">
+          Don't have an account? <a href="register.html">Register here</a>
+        </p>
+      </div>
+    </main>
+  </body>
+</html>
